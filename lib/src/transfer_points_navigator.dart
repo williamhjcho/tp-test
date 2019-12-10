@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nuds/nuds.dart';
+import 'package:provider/provider.dart';
+import 'package:transfer_points_testing/src/simulation/simulation_bloc.dart';
 
 import 'result/result_screen.dart';
 import 'simulation/simulation_input_screen.dart';
@@ -35,14 +37,20 @@ class TransferPointsNavigator extends StatelessWidget {
   }
 
   Route<void> buildHome(RouteSettings settings, {VoidCallback onClose}) {
+    final SimulationBloc bloc = SimulationBloc()
+      ..loadSmiles();
     return NuDSPageRoute<void>(
       settings: settings,
-      builder: (context) => SimulationInputScreen(
-        onClose: onClose,
-        onNext: (value) {
-          Navigator.of(context).pushNamed('/summary');
-        },
-      ),
+      builder: (context) =>
+          ChangeNotifierProvider(
+            create: (context) => bloc,
+            child: SimulationInputScreen(
+              onClose: onClose,
+              onNext: (value) {
+                Navigator.of(context).pushNamed('/summary');
+              },
+            ),
+          ),
     );
   }
 
