@@ -1,0 +1,59 @@
+name: transfer_points_testing
+description: A new Flutter project.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.4.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  intl: ^0.16.0
+#  nuds:
+#    path: ../nuds
+#  common:
+#    path: ../common
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    # This file is here only to generate unit_test_assets build directory
+    - assets/placeholder.txt
+
+  fonts:
+    - family: GothamSSm
+      fonts:
+        - asset: packages/nuds/fonts/GothamSSm/GothamSSm-XLight.otf
+          weight: 200
+        - asset: packages/nuds/fonts/GothamSSm/GothamSSm-XLightItalic.otf
+          weight: 200
+          style: italic
+        - asset: packages/nuds/fonts/GothamSSm/GothamSSm-Light.otf
+          weight: 300
+        - asset: packages/nuds/fonts/GothamSSm/GothamSSm-LightItalic.otf
+          weight: 300
+          style: italic
+        - asset: packages/nuds/fonts/GothamSSm/GothamSSm-Book.otf
+          weight: 400
+        - asset: packages/nuds/fonts/GothamSSm/GothamSSm-BookItalic.otf
+          weight: 400
+          style: italic
+        - asset: packages/nuds/fonts/GothamSSm/GothamSSm-Medium.otf
+          weight: 500
+        - asset: packages/nuds/fonts/GothamSSm/GothamSSm-MediumItalic.otf
+          weight: 500
+          style: italic
+        - asset: packages/nuds/fonts/GothamSSm/GothamSSm-Bold.otf
+          weight: 700
+        - asset: packages/nuds/fonts/GothamSSm/GothamSSm-BoldItalic.otf
+          weight: 700
+          style: italic
+        - asset: packages/nuds/fonts/GothamSSm/GothamSSm-Black.otf
+          weight: 900
+        - asset: packages/nuds/fonts/GothamSSm/GothamSSm-BlackItalic.otf
+          weight: 900
+          style: italic
