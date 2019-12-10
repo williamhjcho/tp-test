@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nuds/nuds.dart';
-
-import 'src/transfer_points_navigator.dart';
+import 'package:transfer_points_testing/client/client.dart';
 
 void main() => runApp(MyApp());
 

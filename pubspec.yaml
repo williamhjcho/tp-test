@@ -13,6 +13,9 @@ dependencies:
 #    path: ../nuds
 #  common:
 #    path: ../common
+  flutter_redux: ^0.6.0
+  redux_thunk: ^0.3.0
+  equatable: ^0.6.0
 
 dev_dependencies:
   flutter_test:
