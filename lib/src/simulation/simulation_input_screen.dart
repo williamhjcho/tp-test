@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nuds/nuds.dart';
+import 'package:transfer_points_testing/src/simulation/bloc/simulation_bloc.dart';
 
-import '../utils/points_input_formatter.dart';
+import 'currenct_input_formatter.dart';
 
 class SimulationInputScreen extends StatefulWidget {
   const SimulationInputScreen({
@@ -19,47 +21,59 @@ class SimulationInputScreen extends StatefulWidget {
 }
 
 class _SimulationInputScreenState extends State<SimulationInputScreen> {
-  final textController = TextEditingController();
-  final pointsFormatter = PointsInputFormatter();
+  final controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    final bloc = BlocProvider.of<SimulationBloc>(context)
+      ..add(const RequestLoadSimulationEvent());
+    controller.addListener(
+        () => bloc.add(InputChangedEvent.input(controller.value.text)));
+  }
 
   @override
   void dispose() {
-    textController.dispose();
+    controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return TextInputScreen(
-      appBar: TopBar(leadingOnPressed: widget.onClose),
-      title: 'Quantas milhas Smiles você precisa?',
-      controller: textController,
-      autofocus: true,
-      errorText: null,
-      helperText: 'Transfira até 4.736 Smiles\n4 Rewards = 1 Smiles',
-      inputFormatters: <TextInputFormatter>[
-        WhitelistingTextInputFormatter.digitsOnly,
-        pointsFormatter,
-      ],
-      keyboardType: const TextInputType.numberWithOptions(
-        decimal: false,
-        signed: false,
-      ),
-      bottom: BottomButton(
-        text: 'CONTINUAR',
-        primary: true,
-        onPressed: _onContinue,
-      ),
+    return BlocBuilder<SimulationBloc, SimulationState>(
+      builder: (context, state) {
+        final topBar = TopBar(leadingOnPressed: widget.onClose);
+        if (state is InitialSimulationState) {
+          return ShimmeringInputScreen(
+            appBar: topBar,
+          );
+        } else if (state is SimulationLoadedState) {
+          return TextInputScreen(
+            appBar: topBar,
+            title: 'Quantas milhas Smiles você precisa?',
+            controller: controller,
+            autofocus: true,
+            errorText: state.errorMessage,
+            helperText:
+                'Transfira até ${state.transferableSmilesSize} Smiles\n${state.rewardsConversionRate} Rewards = 1 Smiles',
+            inputFormatters: <TextInputFormatter>[
+              WhitelistingTextInputFormatter.digitsOnly,
+              CurrencyInputFormatter(),
+            ],
+            keyboardType: const TextInputType.numberWithOptions(
+              decimal: false,
+              signed: false,
+            ),
+            bottom: BottomButton(
+              text: 'CONTINUAR',
+              primary: true,
+              onPressed:
+                  state.validInput ? () => widget.onNext(state.value) : null,
+            ),
+          );
+        }
+        throw StateError('Unmapped state reached ${state.runtimeType}');
+      },
     );
-  }
-
-  void _onContinue() {
-    int value;
-    final text = textController.text;
-    if (text != null && text.isNotEmpty) {
-      value = pointsFormatter.parse(text);
-    }
-
-    widget.onNext(value ?? 0);
   }
 }
