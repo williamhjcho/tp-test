@@ -9,6 +9,7 @@ dependencies:
   flutter:
     sdk: flutter
   intl: ^0.16.0
+  scoped_model: ^1.0.1
 #  nuds:
 #    path: ../nuds
 #  common:

@@ -40,7 +40,7 @@ class TransferPointsNavigator extends StatelessWidget {
       builder: (context) => SimulationInputScreen(
         onClose: onClose,
         onNext: (value) {
-          Navigator.of(context).pushNamed('/summary');
+          Navigator.of(context).pushNamed('/summary', arguments: value);
         },
       ),
     );
@@ -49,9 +49,13 @@ class TransferPointsNavigator extends StatelessWidget {
   Route<void> buildSummary(RouteSettings settings) {
     return NuDSPageRoute<void>(
       settings: settings,
-      builder: (context) => DetailsSummaryScreen(onNext: () {
-        Navigator.of(context).pushNamed('/result');
-      }),
+      builder: (context) =>
+          DetailsSummaryScreen(
+              miles: settings.arguments,
+              onEditValue: () => Navigator.of(context).popAndPushNamed('/'),
+              onNext: () {
+                Navigator.of(context).pushNamed('/result');
+              }),
     );
   }
 
